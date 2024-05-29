@@ -15,41 +15,64 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SampleJob {
 	
-	@Autowired
-	private JobBuilderFactory jobBuilderFactory;
-	
 	
 	@Autowired
-	private StepBuilderFactory stepBuilderFactory; 
+	private JobBuilderFactory JobBuilderFactory;
+	
+	@Autowired
+	private StepBuilderFactory stepBuilderFactory;
 	
 	@Bean
 	public Job firstJob() {
 		
-		return jobBuilderFactory.get("First Job")
+		 return JobBuilderFactory.get("First Job")
 		.start(firstStep())
+		.next(secondStep())
 		.build();
 		
 		
 	}
-	
-	
-	  private Step firstStep() {
-		  
-		  return stepBuilderFactory.get("First Step")
-		    .tasklet(firstTask())
-		    .build();
-		  
-	  }
 
 
-	private Tasklet firstTask() {
+	private Step firstStep() {
+		// TODO Auto-generated method stub
+		return stepBuilderFactory.get("First Step")
+				.tasklet(firstTaskletStep())
+				.build();
+	}
+
+	private Step secondStep() {
+		
+		
+		 return stepBuilderFactory.get("Second Step")
+		.tasklet(secondTaskletStep())
+		.build();
+		
+		
+		
+	}
+
+	private Tasklet secondTaskletStep() {
 		// TODO Auto-generated method stub
 		return new Tasklet() {
 
 			@Override
 			public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 				// TODO Auto-generated method stub
-				System.out.println("Hi, This is First Spring Batch Job with One Tasklet Step");
+				System.out.println("I am in Second Tasklet Step");
+				return RepeatStatus.FINISHED;
+			}};
+	}
+
+
+	private Tasklet firstTaskletStep() {
+		// TODO Auto-generated method stub
+		return new Tasklet(){
+
+			@Override
+			public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+				// TODO Auto-generated method stub
+				System.out.println("I am in First Tasklet Step");
 				return RepeatStatus.FINISHED;
 			}};
 	}
