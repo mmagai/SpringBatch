@@ -12,9 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.service.SecondTaskletStep;
+
 @Configuration
 public class SampleJob {
 	
+	@Autowired
+	private SecondTaskletStep secondTaskletStep;
 	
 	@Autowired
 	private JobBuilderFactory JobBuilderFactory;
@@ -45,24 +49,13 @@ public class SampleJob {
 		
 		
 		 return stepBuilderFactory.get("Second Step")
-		.tasklet(secondTaskletStep())
+		.tasklet(secondTaskletStep)
 		.build();
 		
 		
 		
 	}
 
-	private Tasklet secondTaskletStep() {
-		// TODO Auto-generated method stub
-		return new Tasklet() {
-
-			@Override
-			public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-				// TODO Auto-generated method stub
-				System.out.println("I am in Second Tasklet Step");
-				return RepeatStatus.FINISHED;
-			}};
-	}
 
 
 	private Tasklet firstTaskletStep() {
