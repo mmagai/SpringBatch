@@ -13,6 +13,8 @@ public class SecondTaskletStep implements Tasklet {
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		// TODO Auto-generated method stub
 		
+		
+		System.out.println("I am in Second Tasklet Step and accessing Job Execution Context Value  "+chunkContext.getStepContext().getJobExecutionContext());
 		System.out.println("I am in Second Tasklet Step");
 		return RepeatStatus.FINISHED;
 	}
